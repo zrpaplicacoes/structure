@@ -30,6 +30,7 @@ module.exports = function validationForSchema(schema) {
       });
 
       const { error } = validationWithDynamicLinks.validate(data, validatorOptions);
+			console.log("​validate -> error", error);
 
       if (error) {
         const errors = error.details.map(mapDetail);

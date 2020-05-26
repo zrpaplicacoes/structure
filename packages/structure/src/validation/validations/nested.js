@@ -45,20 +45,36 @@ function getNestedValidations(typeSchema) {
   return joiSchema;
 }
 
-exports.resolveDynamicLinks = function resolveDynamicLinks({ schema, joiValidation }) {
+
+function linkedJoiSharedSchemas(parentJoiValidation, childJoiValidations) {
+  return childJoiValidations.reduce((joiValidation, currentValidation) => (
+    joiValidation.shared(currentValidation)
+  ), parentJoiValidation);
+};
+
+
+function extractJoiValidations(joiValidation, attributeDefinition){
+  if (!attributeDefinition.hasDynamicType) {
+    return joiValidation;
+  }
+
+  const type = attributeDefinition.resolveType();
+
+  if (!type[SCHEMA]) {
+    return joiValidation;
+  }
+
+  console.log("​resolveDynamicLinks -> type[SCHEMA", type[SCHEMA]);
+  
+  const attributeValidation = type[SCHEMA].validation;
+
+  return attributeValidation;
+};
+
+exports.resolveDynamicLinks = function resolveDynamicLinks({ schema, joiValidation }, childJoiValidations) {
+  
   return schema.attributeDefinitions.reduce((joiValidation, attributeDefinition) => {
-    if (!attributeDefinition.hasDynamicType) {
-      return joiValidation;
-    }
-
-    const type = attributeDefinition.resolveType();
-
-    if (!type[SCHEMA]) {
-      return joiValidation;
-    }
-
-    const attributeValidation = type[SCHEMA].validation;
-
-    return joiValidation.shared(attributeValidation.joiValidation);
+	
+    return result;
   }, joiValidation);
 };

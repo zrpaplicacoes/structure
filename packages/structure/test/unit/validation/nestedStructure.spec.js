@@ -262,6 +262,12 @@ describe('validation', () => {
   });
 
   describe('Nested with structure class with dynamic attribute types', () => {
+
+
+    // describe('when is a deep nested', () => {
+
+    // });
+
     describe('when using inferred identifiers', () => {
       let CircularUser;
       let CircularBook;
